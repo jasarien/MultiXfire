@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A87574E14CF4C9E0078250C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A87574D14CF4C9E0078250C /* Cocoa.framework */; };
+		1A87575814CF4C9F0078250C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A87575614CF4C9F0078250C /* InfoPlist.strings */; };
+		1A87575A14CF4C9F0078250C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A87575914CF4C9F0078250C /* main.m */; };
+		1A87575E14CF4C9F0078250C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1A87575C14CF4C9F0078250C /* Credits.rtf */; };
+		1A87576114CF4C9F0078250C /* MXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A87576014CF4C9F0078250C /* MXAppDelegate.m */; };
+		1A87576414CF4C9F0078250C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A87576214CF4C9F0078250C /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1A87574914CF4C9E0078250C /* MultiXfire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiXfire.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A87574D14CF4C9E0078250C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1A87575014CF4C9E0078250C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1A87575114CF4C9E0078250C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1A87575214CF4C9E0078250C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1A87575514CF4C9F0078250C /* MultiXfire-Info.plist */ = {isa = PBXFileReference; path = "MultiXfire-Info.plist"; sourceTree = "<group>"; };
+		1A87575714CF4C9F0078250C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1A87575914CF4C9F0078250C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1A87575B14CF4C9F0078250C /* MultiXfire-Prefix.pch */ = {isa = PBXFileReference; path = "MultiXfire-Prefix.pch"; sourceTree = "<group>"; };
+		1A87575D14CF4C9F0078250C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1A87575F14CF4C9F0078250C /* MXAppDelegate.h */ = {isa = PBXFileReference; path = MXAppDelegate.h; sourceTree = "<group>"; };
+		1A87576014CF4C9F0078250C /* MXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXAppDelegate.m; sourceTree = "<group>"; };
+		1A87576314CF4C9F0078250C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A87574614CF4C9E0078250C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A87574E14CF4C9E0078250C /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A87573E14CF4C9E0078250C = {
+			isa = PBXGroup;
+			children = (
+				1A87575314CF4C9E0078250C /* MultiXfire */,
+				1A87574C14CF4C9E0078250C /* Frameworks */,
+				1A87574A14CF4C9E0078250C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1A87574A14CF4C9E0078250C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A87574914CF4C9E0078250C /* MultiXfire.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1A87574C14CF4C9E0078250C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A87574D14CF4C9E0078250C /* Cocoa.framework */,
+				1A87574F14CF4C9E0078250C /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1A87574F14CF4C9E0078250C /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A87575014CF4C9E0078250C /* AppKit.framework */,
+				1A87575114CF4C9E0078250C /* CoreData.framework */,
+				1A87575214CF4C9E0078250C /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1A87575314CF4C9E0078250C /* MultiXfire */ = {
+			isa = PBXGroup;
+			children = (
+				1A87575F14CF4C9F0078250C /* MXAppDelegate.h */,
+				1A87576014CF4C9F0078250C /* MXAppDelegate.m */,
+				1A87576214CF4C9F0078250C /* MainMenu.xib */,
+				1A87575414CF4C9F0078250C /* Supporting Files */,
+			);
+			path = MultiXfire;
+			sourceTree = "<group>";
+		};
+		1A87575414CF4C9F0078250C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1A87575514CF4C9F0078250C /* MultiXfire-Info.plist */,
+				1A87575614CF4C9F0078250C /* InfoPlist.strings */,
+				1A87575914CF4C9F0078250C /* main.m */,
+				1A87575B14CF4C9F0078250C /* MultiXfire-Prefix.pch */,
+				1A87575C14CF4C9F0078250C /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A87574814CF4C9E0078250C /* MultiXfire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A87576714CF4C9F0078250C /* Build configuration list for PBXNativeTarget "MultiXfire" */;
+			buildPhases = (
+				1A87574514CF4C9E0078250C /* Sources */,
+				1A87574614CF4C9E0078250C /* Frameworks */,
+				1A87574714CF4C9E0078250C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MultiXfire;
+			productName = MultiXfire;
+			productReference = 1A87574914CF4C9E0078250C /* MultiXfire.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1A87574014CF4C9E0078250C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MX;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 1A87574314CF4C9E0078250C /* Build configuration list for PBXProject "MultiXfire" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1A87573E14CF4C9E0078250C;
+			productRefGroup = 1A87574A14CF4C9E0078250C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A87574814CF4C9E0078250C /* MultiXfire */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1A87574714CF4C9E0078250C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A87575814CF4C9F0078250C /* InfoPlist.strings in Resources */,
+				1A87575E14CF4C9F0078250C /* Credits.rtf in Resources */,
+				1A87576414CF4C9F0078250C /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1A87574514CF4C9E0078250C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A87575A14CF4C9F0078250C /* main.m in Sources */,
+				1A87576114CF4C9F0078250C /* MXAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1A87575614CF4C9F0078250C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A87575714CF4C9F0078250C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1A87575C14CF4C9F0078250C /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A87575D14CF4C9F0078250C /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		1A87576214CF4C9F0078250C /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A87576314CF4C9F0078250C /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1A87576514CF4C9F0078250C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1A87576614CF4C9F0078250C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1A87576814CF4C9F0078250C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiXfire/MultiXfire-Prefix.pch";
+				INFOPLIST_FILE = "MultiXfire/MultiXfire-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1A87576914CF4C9F0078250C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiXfire/MultiXfire-Prefix.pch";
+				INFOPLIST_FILE = "MultiXfire/MultiXfire-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A87574314CF4C9E0078250C /* Build configuration list for PBXProject "MultiXfire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A87576514CF4C9F0078250C /* Debug */,
+				1A87576614CF4C9F0078250C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A87576714CF4C9F0078250C /* Build configuration list for PBXNativeTarget "MultiXfire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A87576814CF4C9F0078250C /* Debug */,
+				1A87576914CF4C9F0078250C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1A87574014CF4C9E0078250C /* Project object */;
+}
