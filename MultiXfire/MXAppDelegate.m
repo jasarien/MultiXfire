@@ -7,6 +7,7 @@
 //
 
 #import "MXAppDelegate.h"
+#import "MXHTTPServerController.h"
 
 @implementation MXAppDelegate
 
@@ -14,12 +15,15 @@
 
 - (void)dealloc
 {
+	[_serverController release], _serverController = nil;
     [super dealloc];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	// Insert code here to initialize your application
+	_serverController = [[MXHTTPServerController alloc] init];
 }
+
+
 
 @end

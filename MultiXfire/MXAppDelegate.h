@@ -8,7 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MXAppDelegate : NSObject <NSApplicationDelegate>
+@class MXHTTPServerController;
+
+@interface MXAppDelegate : NSObject <NSApplicationDelegate> {
+	
+	MXHTTPServerController *_serverController;
+	
+}
 
 @property (assign) IBOutlet NSWindow *window;
 
