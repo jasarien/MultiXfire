@@ -10,9 +10,21 @@
 
 @implementation MXHTTPJSONResponse
 
+@synthesize statusCode = _statusCode;
+
+- (id)initWithData:(NSData *)_data statusCode:(NSInteger)statusCode
+{
+	if ((self = [super initWithData:_data]))
+	{
+		_statusCode = statusCode;
+	}
+	
+	return self;
+}
+
 - (NSInteger)status
 {
-	return 200;
+	return self.statusCode;
 }
 
 - (NSDictionary *)httpHeaders

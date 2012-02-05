@@ -10,4 +10,8 @@
 
 @interface MXHTTPJSONResponse : HTTPDataResponse
 
+@property (nonatomic, assign) NSInteger statusCode;
+
+- (id)initWithData:(NSData *)_data statusCode:(NSInteger)statusCode;
+
 @end

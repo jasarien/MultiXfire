@@ -8,14 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MXHTTPServerController;
+@class MXHTTPServerController, MXSessionListViewController;
+
 
 @interface MXAppDelegate : NSObject <NSApplicationDelegate> {
 	
 	MXHTTPServerController *_serverController;
+	MXSessionListViewController *_sessionsListViewController;
 	
 }
 
-@property (assign) IBOutlet NSWindow *window;
+@property (nonatomic, assign) IBOutlet NSWindow *window;
 
 @end

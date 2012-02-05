@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A056D0A14DDA49A00C18F08 /* MXSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A056D0914DDA49A00C18F08 /* MXSessionController.m */; };
+		1A28A1B414D44C08004BF1FE /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A28A1B314D44C08004BF1FE /* NSFileManager+DirectoryLocations.m */; };
+		1A28A1BD14D4AE15004BF1FE /* MXSessionsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A28A1BB14D4AE15004BF1FE /* MXSessionsListViewController.m */; };
+		1A28A1BE14D4AE15004BF1FE /* MXSessionsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A28A1BC14D4AE15004BF1FE /* MXSessionsListViewController.xib */; };
+		1A64FC5914DDE51A00AC9708 /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A64FC5614DDE51A00AC9708 /* green.png */; };
+		1A64FC5A14DDE51A00AC9708 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A64FC5714DDE51A00AC9708 /* red.png */; };
+		1A64FC5B14DDE51A00AC9708 /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A64FC5814DDE51A00AC9708 /* yellow.png */; };
 		1A7FB68C14CF626C00E834E4 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 1A7FB68B14CF626C00E834E4 /* Web */; };
 		1A7FB68F14CF655300E834E4 /* MXHTTPJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB68E14CF655300E834E4 /* MXHTTPJSONResponse.m */; };
 		1A7FB6C314CF6F2700E834E4 /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6B214CF6F2700E834E4 /* NSObject+JSON.m */; };
@@ -20,7 +27,6 @@
 		1A7FB6CB14CF6F2700E834E4 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6C214CF6F2700E834E4 /* SBJsonWriter.m */; };
 		1A7FB6D414CF70F700E834E4 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6CE14CF70F700E834E4 /* FMDatabase.m */; };
 		1A7FB6D514CF70F700E834E4 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6D014CF70F700E834E4 /* FMDatabaseAdditions.m */; };
-		1A7FB6D614CF70F700E834E4 /* fmdb.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6D114CF70F700E834E4 /* fmdb.m */; };
 		1A7FB6D714CF70F700E834E4 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7FB6D314CF70F700E834E4 /* FMResultSet.m */; };
 		1A87574E14CF4C9E0078250C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A87574D14CF4C9E0078250C /* Cocoa.framework */; };
 		1A87575814CF4C9F0078250C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A87575614CF4C9F0078250C /* InfoPlist.strings */; };
@@ -78,9 +84,25 @@
 		1A8758A414CF5B790078250C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A8758A314CF5B790078250C /* Security.framework */; };
 		1A8758B014CF5F9A0078250C /* MXHTTPServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8758AF14CF5F9A0078250C /* MXHTTPServerController.m */; };
 		1A8758B414CF60430078250C /* MXHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8758B314CF602D0078250C /* MXHTTPConnection.m */; };
+		1AA1475514D4B728005BCF4A /* MXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1475414D4B728005BCF4A /* MXDBManager.m */; };
+		1AA1618414D4B1FA00E9518C /* MXXfireUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1618314D4B1FA00E9518C /* MXXfireUser.m */; };
+		1AA1618714D4B49C00E9518C /* MXDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AA1618614D4B49C00E9518C /* MXDevice.m */; };
+		1AFF1BA214CF72E80018F518 /* users.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1AFF1BA014CF72E40018F518 /* users.sqlite */; };
+		1AFF1BA814CF78450018F518 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFF1BA714CF78450018F518 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A056D0814DDA49A00C18F08 /* MXSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSessionController.h; sourceTree = "<group>"; };
+		1A056D0914DDA49A00C18F08 /* MXSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSessionController.m; sourceTree = "<group>"; };
+		1A28A1B214D44C08004BF1FE /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
+		1A28A1B314D44C08004BF1FE /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
+		1A28A1BA14D4AE15004BF1FE /* MXSessionsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXSessionsListViewController.h; sourceTree = "<group>"; };
+		1A28A1BB14D4AE15004BF1FE /* MXSessionsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXSessionsListViewController.m; sourceTree = "<group>"; };
+		1A28A1BC14D4AE15004BF1FE /* MXSessionsListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MXSessionsListViewController.xib; sourceTree = "<group>"; };
+		1A64FC5614DDE51A00AC9708 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
+		1A64FC5714DDE51A00AC9708 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		1A64FC5814DDE51A00AC9708 /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellow.png; sourceTree = "<group>"; };
+		1A64FC6114DDF6CC00AC9708 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		1A7FB68B14CF626C00E834E4 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
 		1A7FB68D14CF655300E834E4 /* MXHTTPJSONResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXHTTPJSONResponse.h; sourceTree = "<group>"; };
 		1A7FB68E14CF655300E834E4 /* MXHTTPJSONResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXHTTPJSONResponse.m; sourceTree = "<group>"; };
@@ -107,7 +129,6 @@
 		1A7FB6CE14CF70F700E834E4 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		1A7FB6CF14CF70F700E834E4 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		1A7FB6D014CF70F700E834E4 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		1A7FB6D114CF70F700E834E4 /* fmdb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fmdb.m; sourceTree = "<group>"; };
 		1A7FB6D214CF70F700E834E4 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		1A7FB6D314CF70F700E834E4 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		1A87574914CF4C9E0078250C /* MultiXfire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiXfire.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +246,14 @@
 		1A8758AF14CF5F9A0078250C /* MXHTTPServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXHTTPServerController.m; sourceTree = "<group>"; };
 		1A8758B214CF602D0078250C /* MXHTTPConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXHTTPConnection.h; sourceTree = "<group>"; };
 		1A8758B314CF602D0078250C /* MXHTTPConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXHTTPConnection.m; sourceTree = "<group>"; };
+		1AA1475314D4B728005BCF4A /* MXDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXDBManager.h; sourceTree = "<group>"; };
+		1AA1475414D4B728005BCF4A /* MXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXDBManager.m; sourceTree = "<group>"; };
+		1AA1618214D4B1FA00E9518C /* MXXfireUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXXfireUser.h; sourceTree = "<group>"; };
+		1AA1618314D4B1FA00E9518C /* MXXfireUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXXfireUser.m; sourceTree = "<group>"; };
+		1AA1618514D4B49C00E9518C /* MXDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXDevice.h; sourceTree = "<group>"; };
+		1AA1618614D4B49C00E9518C /* MXDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXDevice.m; sourceTree = "<group>"; };
+		1AFF1BA014CF72E40018F518 /* users.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = users.sqlite; sourceTree = "<group>"; };
+		1AFF1BA714CF78450018F518 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AFF1BA814CF78450018F518 /* libsqlite3.dylib in Frameworks */,
 				1A8758A414CF5B790078250C /* Security.framework in Frameworks */,
 				1A8758A014CF5B3F0078250C /* CoreFoundation.framework in Frameworks */,
 				1A8758A114CF5B3F0078250C /* libcrypto.dylib in Frameworks */,
@@ -244,9 +274,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A28A1BF14D4AFD0004BF1FE /* Categories and Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1A28A1B214D44C08004BF1FE /* NSFileManager+DirectoryLocations.h */,
+				1A28A1B314D44C08004BF1FE /* NSFileManager+DirectoryLocations.m */,
+			);
+			name = "Categories and Helpers";
+			sourceTree = "<group>";
+		};
+		1A28A1C014D4B1BB004BF1FE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1AA1618214D4B1FA00E9518C /* MXXfireUser.h */,
+				1AA1618314D4B1FA00E9518C /* MXXfireUser.m */,
+				1AA1618514D4B49C00E9518C /* MXDevice.h */,
+				1AA1618614D4B49C00E9518C /* MXDevice.m */,
+				1AA1475314D4B728005BCF4A /* MXDBManager.h */,
+				1AA1475414D4B728005BCF4A /* MXDBManager.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		1A7FB68714CF624D00E834E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A64FC5614DDE51A00AC9708 /* green.png */,
+				1A64FC5714DDE51A00AC9708 /* red.png */,
+				1A64FC5814DDE51A00AC9708 /* yellow.png */,
+				1AFF1BA014CF72E40018F518 /* users.sqlite */,
 				1A7FB68B14CF626C00E834E4 /* Web */,
 			);
 			name = Resources;
@@ -285,7 +341,6 @@
 				1A7FB6CE14CF70F700E834E4 /* FMDatabase.m */,
 				1A7FB6CF14CF70F700E834E4 /* FMDatabaseAdditions.h */,
 				1A7FB6D014CF70F700E834E4 /* FMDatabaseAdditions.m */,
-				1A7FB6D114CF70F700E834E4 /* fmdb.m */,
 				1A7FB6D214CF70F700E834E4 /* FMResultSet.h */,
 				1A7FB6D314CF70F700E834E4 /* FMResultSet.m */,
 			);
@@ -321,6 +376,7 @@
 		1A87574F14CF4C9E0078250C /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1AFF1BA714CF78450018F518 /* libsqlite3.dylib */,
 				1A87589E14CF5B3F0078250C /* libcrypto.dylib */,
 				1A87589F14CF5B3F0078250C /* libz.dylib */,
 				1A8758A314CF5B790078250C /* Security.framework */,
@@ -336,14 +392,22 @@
 		1A87575314CF4C9E0078250C /* MultiXfire */ = {
 			isa = PBXGroup;
 			children = (
+				1A28A1BF14D4AFD0004BF1FE /* Categories and Helpers */,
 				1A7FB6CC14CF70F700E834E4 /* FMDB */,
 				1A7FB6AF14CF6F2700E834E4 /* JSON */,
 				1A87584C14CF5A770078250C /* Xfire */,
 				1A8757FB14CF563C0078250C /* HTTPServer */,
 				1A8758B114CF5FA00078250C /* HTTPInterface */,
+				1A28A1C014D4B1BB004BF1FE /* Model */,
+				1A64FC6114DDF6CC00AC9708 /* Constants.h */,
 				1A87575F14CF4C9F0078250C /* MXAppDelegate.h */,
 				1A87576014CF4C9F0078250C /* MXAppDelegate.m */,
 				1A87576214CF4C9F0078250C /* MainMenu.xib */,
+				1A056D0814DDA49A00C18F08 /* MXSessionController.h */,
+				1A056D0914DDA49A00C18F08 /* MXSessionController.m */,
+				1A28A1BA14D4AE15004BF1FE /* MXSessionsListViewController.h */,
+				1A28A1BB14D4AE15004BF1FE /* MXSessionsListViewController.m */,
+				1A28A1BC14D4AE15004BF1FE /* MXSessionsListViewController.xib */,
 				1A7FB68714CF624D00E834E4 /* Resources */,
 				1A87575414CF4C9F0078250C /* Supporting Files */,
 			);
@@ -579,6 +643,11 @@
 				1A87575E14CF4C9F0078250C /* Credits.rtf in Resources */,
 				1A87576414CF4C9F0078250C /* MainMenu.xib in Resources */,
 				1A7FB68C14CF626C00E834E4 /* Web in Resources */,
+				1AFF1BA214CF72E80018F518 /* users.sqlite in Resources */,
+				1A28A1BE14D4AE15004BF1FE /* MXSessionsListViewController.xib in Resources */,
+				1A64FC5914DDE51A00AC9708 /* green.png in Resources */,
+				1A64FC5A14DDE51A00AC9708 /* red.png in Resources */,
+				1A64FC5B14DDE51A00AC9708 /* yellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,8 +717,13 @@
 				1A7FB6CB14CF6F2700E834E4 /* SBJsonWriter.m in Sources */,
 				1A7FB6D414CF70F700E834E4 /* FMDatabase.m in Sources */,
 				1A7FB6D514CF70F700E834E4 /* FMDatabaseAdditions.m in Sources */,
-				1A7FB6D614CF70F700E834E4 /* fmdb.m in Sources */,
 				1A7FB6D714CF70F700E834E4 /* FMResultSet.m in Sources */,
+				1A28A1B414D44C08004BF1FE /* NSFileManager+DirectoryLocations.m in Sources */,
+				1A28A1BD14D4AE15004BF1FE /* MXSessionsListViewController.m in Sources */,
+				1AA1618414D4B1FA00E9518C /* MXXfireUser.m in Sources */,
+				1AA1618714D4B49C00E9518C /* MXDevice.m in Sources */,
+				1AA1475514D4B728005BCF4A /* MXDBManager.m in Sources */,
+				1A056D0A14DDA49A00C18F08 /* MXSessionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

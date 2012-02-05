@@ -550,11 +550,11 @@ static void _XfireCopyPreference( NSString *pktKey, NSString *dictKey, XfirePack
 {
 	NSString *salt;
 	NSData *hash;
-	NSMutableString *cur;
 	NSString *username;
 	NSString *password;
 	NSString *hashedPassword;
 	
+	// in this version, the password will already be hashed with the secreyt string, so we need only hash with the salt to complete
 	[[self session] delegate_getUserName:&username password:&password];
 	if( (username == nil) || (password == nil) )
 	{
@@ -564,23 +564,26 @@ static void _XfireCopyPreference( NSString *pktKey, NSString *dictKey, XfirePack
 		return;
 	}
 	
+	[username retain];
+	[password retain];
+	
 	// copy so we have a full identification on us
 	[[[self session] loginIdentity] setUserName:username];
 	
 	salt = [[pkt attributeForKey:kXfireAttributeSaltKey] value];
 	
-	// Compute hashed password
-	cur = [NSMutableString string];
-	[cur appendFormat:@"%@%@UltimateArena",username,password];
-	hash = [[cur dataUsingEncoding:NSUTF8StringEncoding] sha1Hash];
-	cur = [NSMutableString string];
-	[cur appendFormat:@"%@%@", [hash stringRepresentation], salt];
-	hash = [[cur dataUsingEncoding:NSUTF8StringEncoding] sha1Hash];
+//	// Compute hashed password
+//	cur = [NSMutableString string];
+//	[cur appendFormat:@"%@%@UltimateArena",username,password];
+//	hash = [[cur dataUsingEncoding:NSUTF8StringEncoding] sha1Hash];
+//	cur = [NSMutableString string];
+//	[cur appendFormat:@"%@%@", [hash stringRepresentation], salt];
+	hash = [[[password stringByAppendingString:salt] dataUsingEncoding:NSUTF8StringEncoding] sha1Hash];
 	hashedPassword = [hash stringRepresentation];
 	
 	XfirePacket *loginPkt = [XfireMutablePacket loginPacketWithUsername:username
-		password:hashedPassword
-		flags:0];
+															   password:hashedPassword
+																  flags:0];
 	
 	[username release];
 	[password release];
