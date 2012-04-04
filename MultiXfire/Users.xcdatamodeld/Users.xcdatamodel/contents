@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50b" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MXManagedDevice" representedClassName="MXManagedDevice" syncable="YES">
+        <attribute name="pushToken" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MXManagedUser" inverseName="devices" inverseEntity="MXManagedUser" syncable="YES"/>
+    </entity>
+    <entity name="MXManagedMissedMessage" representedClassName="MXManagedMissedMessage" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteUsername" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="MXManagedUser" inverseName="missedMessages" inverseEntity="MXManagedUser" syncable="YES"/>
+    </entity>
+    <entity name="MXManagedUser" representedClassName="MXManagedUser" syncable="YES">
+        <attribute name="passwordHash" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="devices" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MXManagedDevice" inverseName="users" inverseEntity="MXManagedDevice" syncable="YES"/>
+        <relationship name="missedMessages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MXManagedMissedMessage" inverseName="user" inverseEntity="MXManagedMissedMessage" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MXManagedDevice" positionX="18" positionY="54" width="128" height="75"/>
+        <element name="MXManagedUser" positionX="-27" positionY="9" width="128" height="105"/>
+        <element name="MXManagedMissedMessage" positionX="16" positionY="108" width="128" height="120"/>
+    </elements>
+</model>

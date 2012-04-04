@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "XfireSession.h"
 
-@class MXXfireUser, MXSessionController;
+@class MXManagedUser, MXSessionController;
 
 @protocol MXSessionControllerDelegate <NSObject>
 
@@ -19,13 +19,21 @@
 
 @end
 
-@interface MXSessionController : NSObject
+@interface MXSessionController : NSObject {
+	
+	NSTimer *_heartbeatTimer;
+	
+}
 
 @property (nonatomic, assign) id <MXSessionControllerDelegate> delegate;
 
-@property (nonatomic, retain) MXXfireUser *user;
+@property (nonatomic, retain) MXManagedUser *user;
 @property (nonatomic, retain) XfireSession *session;
 
-- (id)initWithUser:(MXXfireUser *)user;
+@property (nonatomic, retain) NSHTTPURLResponse *response;
+
+- (id)initWithUser:(MXManagedUser *)user;
+
+- (void)stopHeartbeatTimer;
 
 @end

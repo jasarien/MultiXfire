@@ -23,18 +23,11 @@
 - (id)initWithName:(NSString *)n theme:(NSString *)t;
 @end
 
-XfireSkin *gTheSkin = nil;
-
 @implementation XfireSkin
 
 + (XfireSkin *)theSkin
 {
-	if( gTheSkin == nil )
-	{
-		//gTheSkin = [[XfireSkin alloc] initWithName:@"Shadow" theme:@"default"];
-		gTheSkin = [[XfireSkin alloc] initWithName:@"Aqua" theme:@"default"];
-	}
-	return gTheSkin;
+	return [[[XfireSkin alloc] initWithName:@"Aqua" theme:@"default"] autorelease];
 }
 
 - (id)initWithName:(NSString *)n theme:(NSString *)t

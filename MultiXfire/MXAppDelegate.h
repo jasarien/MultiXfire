@@ -10,14 +10,15 @@
 
 @class MXHTTPServerController, MXSessionListViewController;
 
-
 @interface MXAppDelegate : NSObject <NSApplicationDelegate> {
 	
 	MXHTTPServerController *_serverController;
-	MXSessionListViewController *_sessionsListViewController;
+	
+	NSMutableData *_uaResponseData;
 	
 }
 
 @property (nonatomic, assign) IBOutlet NSWindow *window;
+@property (nonatomic, retain) IBOutlet MXSessionListViewController *sessionsListViewController;
 
 @end

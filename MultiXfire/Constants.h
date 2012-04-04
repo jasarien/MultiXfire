@@ -9,6 +9,16 @@
 #ifndef MultiXfire_Constants_h
 #define MultiXfire_Constants_h
 
+#define MXErrorDomain @"MXErrorDomain"
+
+#define MXErrorCodeUserNotInDatabase 0
+#define MXErrorCodeDeleteUserFromDBFailed 1
+
 #define newRegistrationNotification @"newRegistrationNotification"
+#define unregistrationNotification @"unregistrationNotification"
 #define connectNotification @"connectNotification"
+#define receivedHeartbeatNotification @"receivedHeartbeatNotification"
+
+#define UAAuthKey @"Basic TWhMbGZ4WUxRWXktNDRfSktoNEJFZzpORDByWnZiTlR4RzFVM21SMU9rdEZ3"
+
 #endif

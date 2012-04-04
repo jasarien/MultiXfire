@@ -30,74 +30,54 @@
 #import "SBJsonParser.h"
 #import "SBJsonStreamParser.h"
 #import "SBJsonStreamParserAdapter.h"
-
-@interface SBJsonParser () <SBJsonStreamParserAdapterDelegate>
-@end
-
+#import "SBJsonStreamParserAccumulator.h"
 
 @implementation SBJsonParser
 
 @synthesize maxDepth;
 @synthesize error;
 
-#pragma mark SBJsonStreamParserAdapterDelegate
-
-- (void)parser:(SBJsonStreamParser*)parser foundArray:(NSArray *)array {
-	value = [array retain];
-}
-
-- (void)parser:(SBJsonStreamParser*)parser foundObject:(NSDictionary *)dict {
-	value = [dict retain];
-}
-
 - (id)init {
-	self = [super init];
-	if (self)
-		self.maxDepth = 512;
-	return self;
+    self = [super init];
+    if (self)
+        self.maxDepth = 32u;
+    return self;
 }
 
-- (void)dealloc {
-	[error release];
-	[super dealloc];
-}
 
 #pragma mark Methods
 
 - (id)objectWithData:(NSData *)data {
 
-	if (!data) {
-		self.error = @"Input was 'nil'";
-		return nil;
-	}
+    if (!data) {
+        self.error = @"Input was 'nil'";
+        return nil;
+    }
 
-	SBJsonStreamParserAdapter *adapter = [SBJsonStreamParserAdapter new];
-	adapter.delegate =  self;
+	SBJsonStreamParserAccumulator *accumulator = [[SBJsonStreamParserAccumulator alloc] init];
+    
+    SBJsonStreamParserAdapter *adapter = [[SBJsonStreamParserAdapter alloc] init];
+    adapter.delegate = accumulator;
 	
-	SBJsonStreamParser *parser = [SBJsonStreamParser new];
+	SBJsonStreamParser *parser = [[SBJsonStreamParser alloc] init];
 	parser.maxDepth = self.maxDepth;
 	parser.delegate = adapter;
 	
-	id retval = nil;
 	switch ([parser parse:data]) {
 		case SBJsonStreamParserComplete:
-			retval = [value autorelease];
+            return accumulator.value;
 			break;
 			
 		case SBJsonStreamParserWaitingForData:
-			self.error = @"Didn't find full object before EOF";
+		    self.error = @"Unexpected end of input";
 			break;
 
 		case SBJsonStreamParserError:
-			self.error = parser.error;
+		    self.error = parser.error;
 			break;
 	}
 	
-
-	[adapter release];
-	[parser release];
-	
-	return retval;
+	return nil;
 }
 
 - (id)objectWithString:(NSString *)repr {
@@ -106,15 +86,15 @@
 
 - (id)objectWithString:(NSString*)repr error:(NSError**)error_ {
 	id tmp = [self objectWithString:repr];
-	if (tmp)
-		return tmp;
-	
-	if (error_) {
+    if (tmp)
+        return tmp;
+    
+    if (error_) {
 		NSDictionary *ui = [NSDictionary dictionaryWithObjectsAndKeys:error, NSLocalizedDescriptionKey, nil];
-		*error_ = [NSError errorWithDomain:@"org.brautaset.json.parser.ErrorDomain" code:0 userInfo:ui];
+        *error_ = [NSError errorWithDomain:@"org.brautaset.SBJsonParser.ErrorDomain" code:0 userInfo:ui];
 	}
 	
-	return nil;
+    return nil;
 }
 
 @end

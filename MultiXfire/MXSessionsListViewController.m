@@ -7,7 +7,7 @@
 //
 
 #import "MXSessionsListViewController.h"
-#import "MXXfireUser.h"
+#import "MXManagedUser.h"
 
 @interface MXSessionListViewController ()
 
@@ -44,12 +44,6 @@
 
 - (void)awakeFromNib
 {
-	
-}
-
-- (void)loadView
-{
-	[super loadView];
 	[self viewDidLoad];
 }
 
@@ -58,6 +52,10 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(handleNewRegistrationNotification:)
 												 name:newRegistrationNotification
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(handleUnregistrationNotification:)
+												 name:unregistrationNotification
 											   object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(handleConnectNotification:)
@@ -129,7 +127,7 @@
 
 - (void)handleNewRegistrationNotification:(NSNotification *)note
 {
-	MXXfireUser *user = [[note userInfo] objectForKey:@"xfireUser"];
+	MXManagedUser *user = [[note userInfo] objectForKey:@"user"];
 	MXSessionController *session = [[[MXSessionController alloc] initWithUser:user] autorelease];
 	[session setDelegate:self];
 	if (![self.sessions containsObject:session])
@@ -139,15 +137,39 @@
 	}
 }
 
+- (void)handleUnregistrationNotification:(NSNotification *)note
+{
+	MXManagedUser *user = [[note userInfo] objectForKey:@"user"];
+	
+	MXSessionController *unregSession = nil;
+	
+	for (MXSessionController *session in self.sessions)
+	{
+		if ([[[session user] username] isEqualToString:[user username]])
+		{
+			unregSession = session;
+			break;
+		}
+	}
+	
+	[[unregSession session] disconnect];
+	[self.sessions removeObject:unregSession];
+	[self.tableView reloadData];
+}
+
 - (void)handleConnectNotification:(NSNotification *)note
 {
-	NSString *username = [[note userInfo] objectForKey:@"username"];
+	MXManagedUser *user = [[note userInfo] objectForKey:@"user"];
 	[self.sessions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		MXSessionController *sessionController = (MXSessionController *)obj;
-		if ([[[sessionController user] username] isEqualToString:username])
+		if ([[[sessionController user] username] isEqualToString:[user username]])
 		{
 			dispatch_async(dispatch_get_main_queue(), ^{
-				[[sessionController session] connect];
+				if ([[sessionController session] status] == kXfireSessionStatusOffline)
+				{
+					[sessionController stopHeartbeatTimer];
+					[[sessionController session] connect];
+				}
 			});
 			*stop = YES;
 		}

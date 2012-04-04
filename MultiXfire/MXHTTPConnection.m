@@ -3,26 +3,36 @@
 #import "MXHTTPJSONResponse.h"
 #import "DDNumber.h"
 #import "HTTPLogging.h"
-#import "JSON.h"
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
+#import "SBJson.h"
 #import "NSFileManager+DirectoryLocations.h"
-#import "MXDBManager.h"
-#import "MXXfireUser.h"
-#import "MXDevice.h"
+#import "MXDataManager.h"
+#import "MXManagedUser.h"
+#import "MXManagedDevice.h"
+#import "MXManagedMissedMessage.h"
 
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
+NSString * const kUnregisterResource = @"/unregister";
+NSString * const kUnregisterDeviceResource = @"/unregisterDevice";
 NSString * const kRegisterResource = @"/register";
 NSString * const kConnectResource = @"/connect";
+NSString * const kHeartbeatResource = @"/heartbeat";
+NSString * const kMissedMessagesResource = @"/missedMessages";
 
 @interface MXHTTPConnection ()
 
 - (NSDictionary *)requestBody;
 - (NSObject<HTTPResponse> *)performRegister;
+- (NSObject<HTTPResponse> *)performUnregister;
+- (NSObject <HTTPResponse> *)performUnregisterDevice;
 - (NSObject<HTTPResponse> *)performConnect;
-- (void)postNewRegistrationNotificationForUser:(MXXfireUser *)user;
-- (void)postConnectNotificationForUsername:(NSString *)username;
+- (NSObject<HTTPResponse> *)receivedHeartbeat;
+- (NSObject<HTTPResponse> *)getMissedMessages;
+
+- (void)postNewRegistrationNotificationForUser:(MXManagedUser *)user;
+- (void)postUnregistrationNotificationForUser:(MXManagedUser *)user;
+- (void)postConnectNotificationForUser:(MXManagedUser *)user;
+
 @end
 
 @implementation MXHTTPConnection
@@ -35,7 +45,23 @@ NSString * const kConnectResource = @"/connect";
 		{
 			return YES;
 		}
+		if ([path isEqualToString:kUnregisterResource])
+		{
+			return YES;
+		}
+		if ([path isEqualToString:kUnregisterDeviceResource])
+		{
+			return YES;
+		}
 		else if ([path isEqualToString:kConnectResource])
+		{
+			return YES;
+		}
+		else if ([path isEqualToString:kHeartbeatResource])
+		{
+			return YES;
+		}
+		else if ([path isEqualToString:kMissedMessagesResource])
 		{
 			return YES;
 		}
@@ -44,32 +70,37 @@ NSString * const kConnectResource = @"/connect";
 	return [super supportsMethod:method atPath:path];
 }
 
-- (BOOL)expectsRequestBodyFromMethod:(NSString *)method atPath:(NSString *)path
-{
-	if([method isEqualToString:@"POST"])
-		return YES;
-	
-	return [super expectsRequestBodyFromMethod:method atPath:path];
-}
-
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path
 {
-	if ([method isEqualToString:@"POST"] && [path isEqualToString:kRegisterResource])
+	if ([method isEqualToString:@"POST"])
 	{
-		return [self performRegister];
-	}
-	else if ([method isEqualToString:@"POST"] && [path isEqualToString:kConnectResource])
-	{
-		return [self performConnect];
-	}
-	
+		if ([path isEqualToString:kRegisterResource])
+		{
+			return [self performRegister];
+		}
+		else if ([path isEqualToString:kUnregisterResource])
+		{
+			return [self performUnregister];
+		}
+		else if ([path isEqualToString:kUnregisterDeviceResource])
+		{
+			return [self performUnregisterDevice];
+		}
+		else if ([path isEqualToString:kConnectResource])
+		{
+			return [self performConnect];
+		}
+		else if ([path isEqualToString:kHeartbeatResource])
+		{
+			return [self receivedHeartbeat];
+		}
+		else if ([path isEqualToString:kMissedMessagesResource])
+		{
+			return [self getMissedMessages];
+		}
+	}	
 	return [super httpResponseForMethod:method URI:path];
 }
-
-//- (void)prepareForBodyWithSize:(UInt64)contentLength
-//{
-//	
-//}
 
 - (void)processBodyData:(NSData *)postDataChunk
 {
@@ -85,21 +116,46 @@ NSString * const kConnectResource = @"/connect";
 
 #pragma mark - Actions
 
+- (void)postNewRegistrationNotificationForUser:(MXManagedUser *)user
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:newRegistrationNotification
+															object:self
+														  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"user"]];
+	});
+}
+
+- (void)postUnregistrationNotificationForUser:(MXManagedUser *)user
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:unregistrationNotification
+															object:self
+														  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"user"]];
+	});
+}
+
+- (void)postConnectNotificationForUser:(MXManagedUser *)user
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:connectNotification
+															object:self
+														  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"user"]];
+	});
+}
+
 - (NSObject<HTTPResponse> *)performRegister
 {
 	NSDictionary *parameters = [self requestBody];
 	
-	NSDictionary *user = [parameters objectForKey:@"user"];
-	NSString *username = [user objectForKey:@"username"];
-	NSString *passwordHash = [user objectForKey:@"passwordHash"];
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+	NSString *passwordHash = [userParams objectForKey:@"passwordHash"];
 	
-	NSDictionary *device = [user objectForKey:@"device"];
-	NSString *udid = [device objectForKey:@"udid"];
-	NSString *pushToken = [device objectForKey:@"pushToken"];
+	NSDictionary *deviceParams = [userParams objectForKey:@"device"];
+	NSString *pushToken = [deviceParams objectForKey:@"pushToken"];
 
 	if (![username length] ||
 		![passwordHash length] ||
-		![udid length] ||
 		![pushToken length])
 	{
 		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
@@ -107,86 +163,199 @@ NSString * const kConnectResource = @"/connect";
 		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
 	}
 	
-	NSError *error = nil;
+	__block NSData *response = nil;
 	
-	FMDatabase *users = [FMDatabase databaseWithPath:[[NSFileManager defaultManager] dbPath]];
-	[users open];
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		MXManagedUser *user = [[MXDataManager sharedInstance] registerUserWithParameters:userParams];
 		
-	MXXfireUser *xfireUser = [[MXDBManager sharedInstance] ensureUserExistsWithParamters:user error:&error];
-	if (!user && error)
-	{
-		NSLog(@"Error inserting new user: %@", [error localizedDescription]);
-		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Error creating new user: %@", [error localizedDescription]], @"error", nil];
-		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
-		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
-	}
+		[self postNewRegistrationNotificationForUser:user];
+		
+		NSMutableArray *devices = [NSMutableArray array];
+		for (MXManagedDevice *dev in [user devices])
+		{
+			NSDictionary *deviceDict = [NSDictionary dictionaryWithObjectsAndKeys:
+										[dev pushToken], @"pushToken", nil];
+			[devices addObject:deviceDict];
+		}
+		
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObject:[NSDictionary dictionaryWithObjectsAndKeys:
+																		 [user username], @"username",
+																		 [user passwordHash], @"passwordHash",
+																		 devices, @"devices", nil]
+																 forKey:@"user"];
+		response = [[[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding] retain];
+	});
 	
-	MXDevice *xfireDevice = [[MXDBManager sharedInstance] ensureDeviceExistsWithParamters:device error:&error];
-	if (!device && error)
-	{
-		NSLog(@"Error inserting new device: %@", [error localizedDescription]);
-		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Error creating new device: %@", [error localizedDescription]], @"error", nil];
-		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
-		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];		
-	}
+	[response autorelease];
 	
-	[xfireUser addDevice:xfireDevice];
-	
-	[[MXDBManager sharedInstance] ensureLinkExistsBetweenUser:xfireUser device:xfireDevice error:&error];
-	if (error)
-	{
-		NSLog(@"Error inserting userDevice link %@", [error localizedDescription]);
-		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Error creating new user-device link: %@", [error localizedDescription]], @"error", nil];
-		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
-		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
-	}
-	
-	NSMutableArray *devices = [NSMutableArray array];
-	for (MXDevice *dev in [xfireUser devices])
-	{
-		NSDictionary *deviceDict = [NSDictionary dictionaryWithObjectsAndKeys:
-									[NSNumber numberWithInteger:[dev deviceID]], @"deviceID",
-									[dev udid], @"udid",
-									[dev pushToken], @"pushToken", nil];
-		[devices addObject:deviceDict];
-	}
-	
-	[self postNewRegistrationNotificationForUser:xfireUser];
-	
-	NSDictionary *responseDict = [NSDictionary dictionaryWithObject:[NSDictionary dictionaryWithObjectsAndKeys:
-																		[NSNumber numberWithInteger:[xfireUser userID]], @"userID",
-																		[xfireUser username], @"username",
-																		[xfireUser passwordHash], @"passwordHash",
-																		devices, @"devices", nil]
-															 forKey:@"user"];
-	NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
 	return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:200] autorelease];
 }
 
-- (void)postNewRegistrationNotificationForUser:(MXXfireUser *)user
+- (NSObject <HTTPResponse> *)performUnregister
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:newRegistrationNotification
-														object:self
-													  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"xfireUser"]];
+	NSDictionary *parameters = [self requestBody];
+	
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+	
+	if (![username length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}
+	
+	__block MXManagedUser *user = nil;
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		user = [[MXDataManager sharedInstance] userForUsername:username];
+	});
+	
+	if (!user)
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"User Does Not Exist", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:404] autorelease];
+	}
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		[[MXDataManager sharedInstance] unregisterUser:user];
+	});
+	
+	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];
+}
+
+- (NSObject <HTTPResponse> *)performUnregisterDevice
+{
+	NSDictionary *parameters = [self requestBody];
+	
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+
+	NSDictionary *deviceParams = [userParams objectForKey:@"device"];
+	NSString *pushToken = [deviceParams objectForKey:@"pushToken"];
+	
+	if (![username length] ||
+		![pushToken length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}
+	
+	__block MXManagedUser *user = nil;
+	__block MXManagedDevice *device = nil;
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		user = [[MXDataManager sharedInstance] userForUsername:username];
+		device = [[MXDataManager sharedInstance] deviceForPushToken:pushToken];
+	});
+	
+	if (!user || !device)
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"User or Device Does Not Exist", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:404] autorelease];
+	}
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		[[MXDataManager sharedInstance] unregisterDevice:device forUser:user];
+	});
+	
+	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];
 }
 
 - (NSObject <HTTPResponse> *)performConnect
 {
 	NSDictionary *parameters = [self requestBody];
 	
-	NSDictionary *user = [parameters objectForKey:@"user"];
-	NSString *username = [user objectForKey:@"username"];
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
 	
-	[self postConnectNotificationForUsername:username];
+	if (![username length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}
+	
+	__block MXManagedUser *user = nil;
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		user = [[MXDataManager sharedInstance] userForUsername:username];
+	});
+	
+	[self postConnectNotificationForUser:user];
 	
 	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];
 }
 
-- (void)postConnectNotificationForUsername:(NSString *)username
+- (NSObject<HTTPResponse> *)receivedHeartbeat
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:connectNotification
-														object:self
-													  userInfo:[NSDictionary dictionaryWithObject:username forKey:@"username"]];
+	NSDictionary *parameters = [self requestBody];
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+	
+	if (![username length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}	
+	
+	__block MXManagedUser *user = nil;
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		user = [[MXDataManager sharedInstance] userForUsername:username];
+	});
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:receivedHeartbeatNotification
+															object:self
+														  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"user"]];
+	});
+	
+	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];
+}
+
+- (NSObject<HTTPResponse> *)getMissedMessages
+{
+	NSDictionary *parameters = [self requestBody];
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+	
+	if (![username length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}	
+	
+	NSMutableArray *missedMessages = [NSMutableArray array];
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		MXManagedUser *user = [[MXDataManager sharedInstance] userForUsername:username];
+		NSArray *allObjects = [[user missedMessages] allObjects];
+		for (MXManagedMissedMessage *mm in allObjects)
+		{
+			NSTimeInterval timeSince1970 = [[mm date] timeIntervalSince1970];
+			NSString *date = [NSString stringWithFormat:@"%f", timeSince1970];
+			
+			NSDictionary *missedMessage = [NSDictionary dictionaryWithObjectsAndKeys:[[[mm remoteUsername] copy] autorelease], @"username", [[[mm message] copy] autorelease], @"message", date, @"date", nil];
+			[missedMessages addObject:missedMessage];
+		}
+		
+		[user removeMissedMessages:[user missedMessages]];
+		[[MXDataManager sharedInstance] save];
+	});
+	
+	[missedMessages sortUsingComparator:^NSComparisonResult(NSDictionary *obj1, NSDictionary *obj2) {
+		return [[obj1 objectForKey:@"date"] compare:[obj2 objectForKey:@"date"]];
+	}];
+	
+	NSDictionary *responseDict = [NSDictionary dictionaryWithObject:missedMessages forKey:@"missedMessages"];
+	
+	NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+	return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:200] autorelease];
 }
 
 @end
