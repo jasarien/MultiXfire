@@ -38,12 +38,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	_serverController = [[MXHTTPServerController alloc] init];
-	
-//	_sessionsListViewController = [[MXSessionListViewController alloc] initWithNibName:@"MXSessionsListViewController"
-//																				bundle:nil];
-//	[[_sessionsListViewController view] setFrame:NSMakeRect(0, 0, 157, [[self.window contentView] frame].size.height)];
-//	[[self.window contentView] addSubview:[_sessionsListViewController view]];
-	
+		
 	NSMutableArray *sessions = [NSMutableArray array];
 	
 	for (MXManagedUser *user in [[MXDataManager sharedInstance] allUsers])
