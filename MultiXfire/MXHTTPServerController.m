@@ -20,7 +20,7 @@
 		
 		[_httpServer setConnectionClass:[MXHTTPConnection class]];
 		[_httpServer setType:@"_http._tcp."];
-		[_httpServer setPort:8080];
+		[_httpServer setPort:8337];
 		[_httpServer setDocumentRoot:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"]];
 		
 		NSError *error = nil;
