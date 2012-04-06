@@ -47,6 +47,11 @@
 												 selector:@selector(handleHeartbeatNotification:)
 													 name:receivedHeartbeatNotification
 												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(handleKillHeartbeatNotification:)
+													 name:receivedKillHeartbeatNotification
+												   object:nil];
+		
 	}
 	
 	return self;
@@ -206,6 +211,16 @@
 														 selector:@selector(heartbeatTimerExpired:)
 														 userInfo:nil
 														  repeats:NO];
+	}
+}
+
+- (void)handleKillHeartbeatNotification:(NSNotification *)note
+{
+	MXManagedUser *user = [[note userInfo] objectForKey:@"user"];
+	if ([[user username] isEqualToString:[self.user username]] && [self.session status] == kXfireSessionStatusOffline)
+	{
+		NSLog(@"Got Kill heartbeat, stopping timer");
+		[self stopHeartbeatTimer];
 	}
 }
 

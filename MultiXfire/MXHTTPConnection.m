@@ -17,6 +17,7 @@ NSString * const kUnregisterDeviceResource = @"/unregisterDevice";
 NSString * const kRegisterResource = @"/register";
 NSString * const kConnectResource = @"/connect";
 NSString * const kHeartbeatResource = @"/heartbeat";
+NSString * const kKillHeartbeatResource = @"/killHeartbeat";
 NSString * const kMissedMessagesResource = @"/missedMessages";
 
 @interface MXHTTPConnection ()
@@ -27,6 +28,7 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 - (NSObject <HTTPResponse> *)performUnregisterDevice;
 - (NSObject<HTTPResponse> *)performConnect;
 - (NSObject<HTTPResponse> *)receivedHeartbeat;
+- (NSObject<HTTPResponse> *)receivedKillHeartbeat;
 - (NSObject<HTTPResponse> *)getMissedMessages;
 
 - (void)postNewRegistrationNotificationForUser:(MXManagedUser *)user;
@@ -58,6 +60,10 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 			return YES;
 		}
 		else if ([path isEqualToString:kHeartbeatResource])
+		{
+			return YES;
+		}
+		else if ([path isEqualToString:kKillHeartbeatResource])
 		{
 			return YES;
 		}
@@ -93,6 +99,10 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 		else if ([path isEqualToString:kHeartbeatResource])
 		{
 			return [self receivedHeartbeat];
+		}
+		else if ([path isEqualToString:kKillHeartbeatResource])
+		{
+			return [self receivedKillHeartbeat];
 		}
 		else if ([path isEqualToString:kMissedMessagesResource])
 		{
@@ -315,6 +325,34 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 	});
 	
 	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];
+}
+
+- (NSObject<HTTPResponse> *)receivedKillHeartbeat
+{
+	NSDictionary *parameters = [self requestBody];
+	NSDictionary *userParams = [parameters objectForKey:@"user"];
+	NSString *username = [userParams objectForKey:@"username"];
+	
+	if (![username length])
+	{
+		NSDictionary *responseDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Invalid parameters", @"error", nil];
+		NSData *response = [[responseDict JSONRepresentation] dataUsingEncoding:NSUTF8StringEncoding];
+		return [[[MXHTTPJSONResponse alloc] initWithData:response statusCode:400] autorelease];
+	}	
+	
+	__block MXManagedUser *user = nil;
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		user = [[MXDataManager sharedInstance] userForUsername:username];
+	});
+	
+	dispatch_sync(dispatch_get_main_queue(), ^{
+		[[NSNotificationCenter defaultCenter] postNotificationName:receivedKillHeartbeatNotification
+															object:self
+														  userInfo:[NSDictionary dictionaryWithObject:user forKey:@"user"]];
+	});
+	
+	return [[[MXHTTPJSONResponse alloc] initWithData:nil statusCode:200] autorelease];	
 }
 
 - (NSObject<HTTPResponse> *)getMissedMessages

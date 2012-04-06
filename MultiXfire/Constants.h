@@ -18,6 +18,7 @@
 #define unregistrationNotification @"unregistrationNotification"
 #define connectNotification @"connectNotification"
 #define receivedHeartbeatNotification @"receivedHeartbeatNotification"
+#define receivedKillHeartbeatNotification @"receivedKillHeartbeatNotification"
 
 #define UAAuthKey @"Basic TWhMbGZ4WUxRWXktNDRfSktoNEJFZzpORDByWnZiTlR4RzFVM21SMU9rdEZ3"
 
