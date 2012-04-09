@@ -112,6 +112,26 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 	return [super httpResponseForMethod:method URI:path];
 }
 
+- (BOOL)isPasswordProtected:(NSString *)path
+{
+	return YES;
+}
+
+- (BOOL)useDigestAccessAuthentication
+{
+	return YES;
+}
+
+- (NSString *)passwordForUser:(NSString *)username
+{
+	if ([username isEqualToString:MXConnectionUsername])
+	{
+		return MXConnectionPassword;
+	}
+	
+	return nil;
+}
+
 - (void)processBodyData:(NSData *)postDataChunk
 {
 	[request appendData:postDataChunk];
@@ -157,13 +177,15 @@ NSString * const kMissedMessagesResource = @"/missedMessages";
 {
 	NSDictionary *parameters = [self requestBody];
 	
+	NSLog(@"Resgistering: %@", parameters);
+	
 	NSDictionary *userParams = [parameters objectForKey:@"user"];
 	NSString *username = [userParams objectForKey:@"username"];
 	NSString *passwordHash = [userParams objectForKey:@"passwordHash"];
 	
 	NSDictionary *deviceParams = [userParams objectForKey:@"device"];
 	NSString *pushToken = [deviceParams objectForKey:@"pushToken"];
-
+	
 	if (![username length] ||
 		![passwordHash length] ||
 		![pushToken length])

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XfireSession.h"
+#import "XfireSession_Private.h"
 
 @class MXManagedUser, MXSessionController;
 

@@ -339,7 +339,7 @@ static NSMutableArray *recentNonces;
 	// Override me to provide a custom realm...
 	// You can configure it for the entire server, or based on the current request
 	
-	return @"defaultRealm@host.com";
+	return @"Xblaze Push Server";
 }
 
 /**

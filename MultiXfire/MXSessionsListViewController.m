@@ -117,6 +117,12 @@
 {
 	[[self tableView] reloadData];
 	NSLog(@"%@ will disconnect: %@", [[session user] username], reason);
+	
+	if ([reason isEqualToString:kXfireUnknownNetworkErrorReason])
+	{
+		//reconnect
+		[[session session] connect];
+	}
 }
 
 - (void)sessionControllerLoginFailed:(MXSessionController *)session reason:(NSString *)reason
