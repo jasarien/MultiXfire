@@ -119,9 +119,18 @@
 	[self.session setPosingClientVersion:XfirePoseClientVersion];
 	[self.session setDelegate:self];
 	
-	if ([self.delegate respondsToSelector:@selector(sessionControllerWillDisconnect:reason:)])
+	if ([reason isEqualToString:kXfireUnknownNetworkErrorReason])
 	{
-		[self.delegate sessionControllerWillDisconnect:self reason:reason];
+		//reconnect
+		NSLog(@"Reconnecting after network error");
+		[self.session connect];
+	}
+	else
+	{
+		if ([self.delegate respondsToSelector:@selector(sessionControllerWillDisconnect:reason:)])
+		{
+			[self.delegate sessionControllerWillDisconnect:self reason:reason];
+		}
 	}
 }
 
